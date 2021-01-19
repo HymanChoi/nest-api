@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2021-01-18 21:12:59
+ * @LastEditTime: 2021-01-19 22:57:23
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /nest-api/src/modules/users/users.controller.ts
+ */
 import {
   Body,
   Controller,
@@ -9,52 +17,36 @@ import {
 } from '@nestjs/common';
 import { CreateUserDTO } from './dto/users.create.dto';
 import { UpdateUserDTO } from './dto/users.update.dto';
+import { LoginUserDTO } from './dto/users.login.dto';
+import { RegisterUserDTO } from './dto/users.register.dto';
 import { UsersService } from './users.service';
 import { UsersEntity } from './users.entity';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
-interface UsersResponse<T = unknown> {
-  code: number;
-  data?: T;
-  message: string;
-}
-
-@Controller('users')
 @ApiTags('用户')
+@Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) { }
 
   // GET /users/users
   @Get('users')
   @ApiOperation({ summary: '搜索所有用户' })
-  async findAll(): Promise<UsersResponse<UsersEntity[]>> {
-    return {
-      code: 200,
-      data: await this.usersService.findAll(),
-      message: 'Success.'
-    };
+  async findAll(): Promise<UsersEntity[]> {
+    return await this.usersService.findAll()
   }
 
-  // GET /users/:id
-  @Get(':id')
+  // GET /users/:username
+  @Get(':username')
   @ApiOperation({ summary: '搜索单个用户' })
-  async findOne(@Param('id') id: string): Promise<UsersResponse<UsersEntity>> {
-    return {
-      code: 200,
-      data: await this.usersService.findOne(id),
-      message: 'Success.'
-    };
+  async findOne(@Param('username') username: string): Promise<UsersEntity> {
+    return await this.usersService.findOne(username)
   }
 
   // POST /users
   @Post()
   @ApiOperation({ summary: '新增单个用户' })
-  async addOne(@Body() body: CreateUserDTO): Promise<UsersResponse> {
-    await this.usersService.addOne(body);
-    return {
-      code: 200,
-      message: 'Success.'
-    };
+  async addOne(@Body() body: CreateUserDTO): Promise<void> {
+    return await this.usersService.addOne(body);
   }
 
   // PUT /users/:id
@@ -63,22 +55,28 @@ export class UsersController {
   async editOne(
     @Param('id') id: string,
     @Body() body: UpdateUserDTO
-  ): Promise<UsersResponse> {
-    await this.usersService.editOne(id, body);
-    return {
-      code: 200,
-      message: 'Success.'
-    };
+  ): Promise<void> {
+    return await this.usersService.editOne(id, body);
   }
 
   // DELETE /users/:id
   @Delete(':id')
   @ApiOperation({ summary: '删除单个用户' })
-  async deleteOne(@Param('id') id: string): Promise<UsersResponse> {
-    await this.usersService.deleteOne(id);
-    return {
-      code: 200,
-      message: 'Success.'
-    };
+  async deleteOne(@Param('id') id: string): Promise<void> {
+    return await this.usersService.deleteOne(id);
+  }
+
+  // POST /users
+  @Post()
+  @ApiOperation({ summary: '用户登录' })
+  async login(@Body() body: LoginUserDTO): Promise<void> {
+    return await this.usersService.login(body);
+  }
+
+  // POST /users
+  @Post()
+  @ApiOperation({ summary: '用户注册' })
+  async register(@Body() body: RegisterUserDTO): Promise<void> {
+    return await this.usersService.register(body);
   }
 }

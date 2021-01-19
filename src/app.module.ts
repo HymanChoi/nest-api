@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 // 子模块加载
 import { UsersModule } from './modules/users/users.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -17,7 +18,8 @@ import { UsersModule } from './modules/users/users.module';
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
-    UsersModule
+    UsersModule,
+    AuthModule
   ]
 })
 export class AppModule { }
