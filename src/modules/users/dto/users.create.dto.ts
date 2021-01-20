@@ -1,18 +1,18 @@
 /*
- * @Author: your name
- * @Date: 2021-01-18 21:38:15
- * @LastEditTime: 2021-01-19 22:09:42
+ * @Author: Hyman Choi
+ * @Date: 2021-01-19 10:15:08
+ * @LastEditTime: 2021-01-19 10:26:03
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
- * @FilePath: /nest-api/src/modules/users/dto/users.create.dto.ts
+ * @FilePath: \nest-api\src\modules\users\dto\users.create.dto.ts
  */
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateUserDTO {
   @ApiProperty({ description: '用户ID' })
-  id: number;
-  @ApiProperty({ description: '用户名' })
-  username: string;
+  readonly id: number;
+  @ApiProperty({ description: '用户名称' })
+  readonly username: string;
   @ApiProperty({ description: '用户密码' })
-  password: string;
-} 
+  readonly password: string;
+}
